@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Belajar react JS",
+    "tag": ["react", "frontend", "javascript"],
+    "date": "11-30-2024",
+    "isNew": true
+  },
+  {
+    "title": "Meningkatkan performa React JS",
+    "tag": ["react", "frontend", "javascript"],
+    "date": "12-1-2024",
+    "isNew": false
+  },
+  {
+    "title": "Cara menggunakan chakra ui di React JS",
+    "tag": ["react", "css", "javascript"],
+    "date": "12-2-2024",
+    "isNew": false
+  }
+]
