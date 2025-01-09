@@ -1,35 +1,116 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+
+const socialMedia = [
+  {
+    icon: "F",
+    href: "https://instagram.com/yoapipp",
+  },
+  {
+    icon: "I",
+    href: "https://instagram.com/yoapipp",
+  },
+  {
+    icon: "X",
+    href: "https://instagram.com/yoapipp",
+  },
+  {
+    icon: "IN",
+    href: "https://instagram.com/yoapipp",
+  },
+  {
+    icon: "G",
+    href: "https://instagram.com/yoapipp",
+  },
+];
 
 function App() {
-  const [count, setCount] = useState(0)
+  return (
+    <div className="card">
+      <div className="top">
+        <HeaderCard />
+        <Identity name={"Black Cat"} title={"Meow Engginer"} />
+      </div>
+      <div className="bottom">
+        <Biodata name={"Black Cat"} />
+        <Highlight />
+      </div>
+    </div>
+  );
+}
+
+function Buttons({index, children, href}) {
+  return (
+    <button key={index} onClick={() => window.open(href, "_blank")}>
+        <i>{children}</i>
+    </button>
+  );
+}
+
+function HeaderCard() {
+  const midleIndex = Math.round(socialMedia.length / 2);
+  const socialLeft = socialMedia.slice(0, midleIndex);
+  const socialRight = socialMedia.slice(midleIndex);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="social-buttons">
+        {socialLeft.map((data, index) => (
+          <Buttons key={index} href={data.href}>{data.icon}</Buttons>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className="social-buttons right">
+        {socialRight.map((data, index) => (
+          <Buttons key={index}>{data.icon}</Buttons>
+        ))}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+function Identity(props) {
+  return (
+    <>
+      <div className="text">
+        <div className="name-wrapper">
+          <div className="name">{props.name}</div>
+        </div>
+        <div className="title">{props.title}</div>
+      </div>
+    </>
+  );
+}
+
+function Biodata(props) {
+  return (
+    <div className="desc">
+      <p>
+        My name is <b>{props.name}</b> and i am a Developer
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eveniet modi
+        odio fugit laudantium temporibus pariatur sit saepe magni possimus,
+        asperiores fugiat dicta nulla neque iste harum.
+      </p>
+    </div>
+  );
+}
+
+function Badge(props) {
+  return (
+    <button>
+      <div className="height">{props.children}</div>
+    </button>
+  );
+}
+
+function Highlight() {
+  return (
+    <div className="buttons">
+      <Badge>🚀 PhD</Badge>
+      <Badge>⚛️ React JS</Badge>
+      <Badge>🧑‍💻 Lecture</Badge>
+    </div>
+  );
+}
+
+export default App;
