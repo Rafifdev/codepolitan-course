@@ -1,35 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const listItems = [
+    { id: 0, title: "Apel", done: true },
+    { id: 1, title: "Pisang", done: false },
+    { id: 2, title: "Jeruk", done: true },
+  ];
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app">
+      <Logo />
+      <Form />
+      <div className="list">
+        <ul>
+          <Items data={listItems} />
+        </ul>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <Footer data={listItems} />
+    </div>
+  );
 }
 
-export default App
+function Logo() {
+  return <div className="logo">📝 Simple Todo List ✅</div>;
+}
+
+function Form() {
+  const [title, setTitle] = useState("");
+  
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
+
+  return (
+    <form className="add-form" onSubmit={handleSubmit}>
+      <h3>Ada yang mau di catet kah abangku?🧐</h3>
+      <input
+        type="text"
+        placeholder="Stroberi..."
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <button>Catat</button>
+    </form>
+  );
+}
+
+function Items(props) {
+
+  return props.data.map( list => (
+    <li key={list.id}>
+      <input type="checkbox" defaultChecked={list.done}/>
+      <span style={{textDecoration: list.done ? "line-through": ""}}>{list.title}</span>
+      <button style={{ padding: "0px" }}>❌</button>
+    </li>
+  ));
+}
+
+function Footer(props) {
+  const checklist = Object.values(props.data).filter(item => item.done).length
+  return (
+    <footer className="stats">
+      📝 Kamu memiliki {props.data.length} catatan dan baru {checklist} yang di checklist ✅
+    </footer>
+  );
+}
+
+export default App;
