@@ -1,64 +1,53 @@
 import { useState } from "react";
 
 function App() {
+  const [noteChange, setNoteChange] = useState("");
+  const [note, setNote] = useState([]);
 
-  const [notes, setNotes] = useState([]);
-  const [inputNotes, setInputNotes] = useState("");
-
-  // Handle submit
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleInputChage = (event) => {
+    setNoteChange(event.target.value);
   };
 
-  // Handle input
-  const handleInputChange = (event) => {
-    setInputNotes(event.target.value);
-  };
-
-  // Handle add button
-  const handleAdd = () => {
-    if (inputNotes.trim() !== "") {
+  const handleAddNote = () => {
+    if (noteChange.trim() !== "") {
       const newNote = {
         id: new Date().getTime(),
-        text: inputNotes,
+        text: noteChange,
       };
-      setNotes([...notes, newNote]);
-      setInputNotes("");
+      setNote([...note, newNote]);
+      setNoteChange("");
     }
   };
 
-  // Handle delete button
-  const handleDelete = (id) => {
-    const updateNotes = notes.filter((note) => note.id !== id);
-    setNotes(updateNotes);
+  const handleDeleteNote = (id) => {
+    const updatedNotes = note.filter((note) => note.id !== id);
+    setNote(updatedNotes);
   };
 
   return (
     <div className="app">
       <h1>Notes</h1>
-      {/* start input */}
-      <form className="note-input" onSubmit={handleSubmit}>
+
+      <form className="note-input" onSubmit={(event) => event.preventDefault()}>
         <input
           type="text"
-          placeholder="Add a note"
-          value={inputNotes}
-          onChange={handleInputChange}
+          placeholder="Add a note..."
+          value={noteChange}
+          onChange={handleInputChage}
         />
-        <button onClick={handleAdd}>Add</button>
+        <button onClick={handleAddNote}>Add</button>
       </form>
-      {/* end input */}
 
-      {/* start list */}
       <div className="note">
         <ul className="note-list">
-          {notes.map((note) => (
+          {note.map((note) => (
             <li key={note.id}>
-              {note.text} <button onClick={() => handleDelete(note.id)}>Delete</button>
+              {note.text}{" "}
+              <button onClick={() => handleDeleteNote(note.id)}>Delete</button>
             </li>
           ))}
         </ul>
       </div>
-      {/* end list */}
     </div>
   );
 }
