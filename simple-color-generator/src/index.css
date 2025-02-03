@@ -1,0 +1,15 @@
+.app{
+  min-width: 320px;
+  min-height: 100vh;
+  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.color-output{
+    width: 8rem;
+    height: 8rem;
+}
