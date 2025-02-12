@@ -20,6 +20,11 @@ function App() {
     }
   }
 
+  function handleDeleteItem(id){
+    const updateItem = item.filter((item) => item.id !== id)
+    setItem(updateItem)
+  }
+
   return (
     <div className="app">
       <div className="logo">Simple Todo List📝</div>
@@ -27,8 +32,8 @@ function App() {
         value={inputChage}
         handleInputChange={handleInputChange}
         handleAddItem={handleAddItem}
-      />
-      <List listItem={item} />
+        />
+      <List listItem={item} handleDeleteItem={handleDeleteItem}/>
       <Stats />
     </div>
   );
@@ -48,20 +53,20 @@ function Form({ handleInputChange, value, handleAddItem }) {
   );
 }
 
-function List({ listItem }) {
+function List({ listItem, handleDeleteItem }) {
   return (
     <div className="list">
       <ul>
-        <Items listItem={listItem}/>
+        <Items listItem={listItem} handleDeleteItem={handleDeleteItem}/>
       </ul>
     </div>
   );
 }
 
-function Items({ listItem }) {
+function Items({ listItem, handleDeleteItem }) {
   return listItem.map((data) => (
     <li key={data.id}>
-      <input type="checkbox" /> {data.text} <button>❌</button>
+      <input type="checkbox" /> {data.text} <button onClick={() => handleDeleteItem(data.id)}>❌</button>
     </li>
   ));
 }
