@@ -1,35 +1,73 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [inputChage, setInputChage] = useState("");
+  const [item, setItem] = useState([]);
+
+  function handleInputChange(event) {
+    setInputChage(event.target.value);
+  }
+
+  function handleAddItem() {
+    if (inputChage.trim() !== "") {
+      const newitem = {
+        id: new Date().getTime(),
+        text: inputChage,
+        chechklist: false,
+      };
+      setItem((prevItem) => [...prevItem, newitem]);
+      setInputChage("")
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app">
+      <div className="logo">Simple Todo List📝</div>
+      <Form
+        value={inputChage}
+        handleInputChange={handleInputChange}
+        handleAddItem={handleAddItem}
+      />
+      <List listItem={item} />
+      <Stats />
+    </div>
+  );
 }
 
-export default App
+function Form({ handleInputChange, value, handleAddItem }) {
+  return (
+    <form className="add-form" onSubmit={(event) => event.preventDefault()}>
+      <input
+        type="text"
+        placeholder="Add notes here..."
+        value={value}
+        onChange={handleInputChange}
+      />
+      <button onClick={handleAddItem}>Add</button>
+    </form>
+  );
+}
+
+function List({ listItem }) {
+  return (
+    <div className="list">
+      <ul>
+        <Items listItem={listItem}/>
+      </ul>
+    </div>
+  );
+}
+
+function Items({ listItem }) {
+  return listItem.map((data) => (
+    <li key={data.id}>
+      <input type="checkbox" /> {data.text} <button>❌</button>
+    </li>
+  ));
+}
+
+function Stats() {
+  return <div className="stats">Anda memiliki X catatan 📝</div>;
+}
+
+export default App;
