@@ -3,7 +3,7 @@ import { useState } from "react";
 function App() {
   const [inputChage, setInputChage] = useState("");
   const [item, setItem] = useState([]);
-
+  
   function handleInputChange(event) {
     setInputChage(event.target.value);
   }
@@ -16,13 +16,27 @@ function App() {
         chechklist: false,
       };
       setItem((prevItem) => [...prevItem, newitem]);
-      setInputChage("")
+      setInputChage("");
     }
   }
 
-  function handleDeleteItem(id){
-    const updateItem = item.filter((item) => item.id !== id)
-    setItem(updateItem)
+  function handleDeleteItem(id) {
+    const updateItem = item.filter((item) => item.id !== id);
+    setItem(updateItem);
+  }
+
+  function handleChecklist(id) {
+    setItem((prevItem) => {
+      return prevItem.map((item) => {
+        if (item.id == id) {
+          return {
+            ...item,
+            chechklist: !item.chechklist,
+          };
+        }
+        return item;
+      });
+    });
   }
 
   return (
@@ -32,13 +46,18 @@ function App() {
         value={inputChage}
         handleInputChange={handleInputChange}
         handleAddItem={handleAddItem}
-        />
-      <List listItem={item} handleDeleteItem={handleDeleteItem}/>
-      <Stats />
+      />
+      <List
+        listItem={item}
+        handleDeleteItem={handleDeleteItem}
+        handleChecklist={handleChecklist}
+      />
+      <Stats listItem={item} />
     </div>
   );
 }
 
+// component form (input data)
 function Form({ handleInputChange, value, handleAddItem }) {
   return (
     <form className="add-form" onSubmit={(event) => event.preventDefault()}>
@@ -53,26 +72,41 @@ function Form({ handleInputChange, value, handleAddItem }) {
   );
 }
 
-function List({ listItem, handleDeleteItem }) {
+// component list
+function List({ listItem, handleDeleteItem, handleChecklist }) {
   return (
     <div className="list">
       <ul>
-        <Items listItem={listItem} handleDeleteItem={handleDeleteItem}/>
+        <Items
+          listItem={listItem}
+          handleDeleteItem={handleDeleteItem}
+          handleChecklist={handleChecklist}
+        />
       </ul>
     </div>
   );
 }
 
-function Items({ listItem, handleDeleteItem }) {
+// component item
+function Items({ listItem, handleDeleteItem, handleChecklist }) {
   return listItem.map((data) => (
     <li key={data.id}>
-      <input type="checkbox" /> {data.text} <button onClick={() => handleDeleteItem(data.id)}>❌</button>
+      <input
+        type="checkbox"
+        onChange={() => handleChecklist(data.id)}
+        checked={data.chechklist}
+      />
+      <span style={{ textDecoration: data.chechklist ? "line-through" : "" }}>
+        {data.text}
+      </span>
+      <button onClick={() => handleDeleteItem(data.id)}>❌</button>
     </li>
   ));
 }
 
-function Stats() {
-  return <div className="stats">Anda memiliki X catatan 📝</div>;
+// component stats
+function Stats({ listItem }) {
+  return <div className="stats" style={{position: "fixed", bottom: 0, width : "100%"}}>Anda memiliki {listItem.length} catatan 📝</div>;
 }
 
 export default App;

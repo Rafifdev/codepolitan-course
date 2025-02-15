@@ -8,11 +8,11 @@
 
 html {
   font-size: 62.5%;
+  font-family: sans-serif;
 }
 
 body {
   font-size: 2.4rem;
-  font-family: sans-serif;
   color: #f5efe7;
   font-family: "Quicksand";
   font-weight: 500;
@@ -74,7 +74,7 @@ input {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  gap: 3.2rem;
+  gap: 3rem;
   align-items: center;
 }
 
@@ -121,8 +121,8 @@ input[type="checkbox"] {
 }
 
 .stats {
-  background-color: #d8c4b6;
+  background-color:rgb(204, 187, 174);
   text-align: center;
   font-weight: 700;
-  padding: 3.2rem 0;
+  padding: 1.5rem 0;
 }
