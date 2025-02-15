@@ -3,7 +3,7 @@ import { useState } from "react";
 function App() {
   const [inputChage, setInputChage] = useState("");
   const [item, setItem] = useState([]);
-  
+
   function handleInputChange(event) {
     setInputChage(event.target.value);
   }
@@ -21,8 +21,7 @@ function App() {
   }
 
   function handleDeleteItem(id) {
-    const updateItem = item.filter((item) => item.id !== id);
-    setItem(updateItem);
+    setItem(item.filter((item) => item.id !== id));
   }
 
   function handleChecklist(id) {
@@ -106,7 +105,44 @@ function Items({ listItem, handleDeleteItem, handleChecklist }) {
 
 // component stats
 function Stats({ listItem }) {
-  return <div className="stats" style={{position: "fixed", bottom: 0, width : "100%"}}>Anda memiliki {listItem.length} catatan 📝</div>;
+
+  if (listItem.length == 0) {
+    return (
+      <footer
+        className="stats"
+        style={{ position: "fixed", bottom: 0, width: "100%" }}
+      >
+        <span>📝 Yuk mulai bikin catatan 😊</span>
+      </footer>
+    );
+  }
+
+  const totalItems = listItem.length;
+  const chechklistItem = listItem.filter((item) => item.chechklist).length;
+  const percentage = Math.round((chechklistItem / totalItems) * 100);
+
+  if (percentage == 100) {
+    return (
+      <footer
+      className="stats"
+      style={{ position: "fixed", bottom: 0, width: "100%" }}
+    >
+      <span>😲 Wow kamu menyelesaikan semua nyaaa! 😲</span>
+    </footer>
+    )
+  }
+
+  return (
+    <footer
+      className="stats"
+      style={{ position: "fixed", bottom: 0, width: "100%" }}
+    >
+      <span>
+        📝 Anda memiliki {totalItems} catatan dan baru {chechklistItem} yang di
+        chechklist {percentage + "%"} ✅
+      </span>
+    </footer>
+  );
 }
 
 export default App;
