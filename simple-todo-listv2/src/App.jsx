@@ -139,7 +139,7 @@ function Stats({ listItem }) {
     >
       <span>
         📝 Anda memiliki {totalItems} catatan dan baru {chechklistItem} yang di
-        chechklist {percentage + "%"} ✅
+        chechklist ({percentage + "%"}) ✅
       </span>
     </footer>
   );
