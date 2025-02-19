@@ -73,15 +73,43 @@ function Form({ handleInputChange, value, handleAddItem }) {
 
 // component list
 function List({ listItem, handleDeleteItem, handleChecklist }) {
+  const [sortBy, setSortBy] = useState("input");
+
+  function sortLists() {
+    switch (sortBy) {
+      case "abjad":
+        return listItem.slice().sort((a, b) => a.text - b.text);
+      case "status":
+        return listItem
+          .slice()
+          .sort((a, b) => b.chechklist - a.chechklist);
+      case "input":
+      default:
+        return listItem;
+    }
+  }
+
+  const sortedLists = sortLists();
+
   return (
     <div className="list">
       <ul>
         <Items
-          listItem={listItem}
+          listItem={sortedLists}
           handleDeleteItem={handleDeleteItem}
           handleChecklist={handleChecklist}
         />
       </ul>
+      <div className="actions">
+        <select
+          value={sortBy}
+          onChange={(event) => setSortBy(event.target.value)}
+        >
+          <option value="input">Urutkan berdasarkan terakhir di buat</option>
+          <option value="abjad">Urutkan berdasarkan abjad (a-z)</option>
+          <option value="status">Urutkan berdasarkan status</option>
+        </select>
+      </div>
     </div>
   );
 }
@@ -89,29 +117,27 @@ function List({ listItem, handleDeleteItem, handleChecklist }) {
 // component item
 function Items({ listItem, handleDeleteItem, handleChecklist }) {
   return listItem.map((data) => (
-    <li key={data.id}>
-      <input
-        type="checkbox"
-        onChange={() => handleChecklist(data.id)}
-        checked={data.chechklist}
-      />
-      <span style={{ textDecoration: data.chechklist ? "line-through" : "" }}>
-        {data.text}
-      </span>
-      <button onClick={() => handleDeleteItem(data.id)}>❌</button>
-    </li>
+    <>
+      <li key={data.id}>
+        <input
+          type="checkbox"
+          onChange={() => handleChecklist(data.id)}
+          checked={data.chechklist}
+        />
+        <span style={{ textDecoration: data.chechklist ? "line-through" : "" }}>
+          {data.text}
+        </span>
+        <button onClick={() => handleDeleteItem(data.id)}>❌</button>
+      </li>
+    </>
   ));
 }
 
 // component stats
 function Stats({ listItem }) {
-
   if (listItem.length == 0) {
     return (
-      <footer
-        className="stats"
-        style={{ position: "fixed", bottom: 0, width: "100%" }}
-      >
+      <footer className="stats">
         <span>📝 Yuk mulai bikin catatan 😊</span>
       </footer>
     );
@@ -123,20 +149,14 @@ function Stats({ listItem }) {
 
   if (percentage == 100) {
     return (
-      <footer
-      className="stats"
-      style={{ position: "fixed", bottom: 0, width: "100%" }}
-    >
-      <span>😲 Wow kamu menyelesaikan semua nyaaa! 😲</span>
-    </footer>
-    )
+      <footer className="stats">
+        <span>😲 Wow kamu menyelesaikan semua nyaaa! 😲</span>
+      </footer>
+    );
   }
 
   return (
-    <footer
-      className="stats"
-      style={{ position: "fixed", bottom: 0, width: "100%" }}
-    >
+    <footer className="stats">
       <span>
         📝 Anda memiliki {totalItems} catatan dan baru {chechklistItem} yang di
         chechklist ({percentage + "%"}) ✅
