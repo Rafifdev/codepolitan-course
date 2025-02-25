@@ -38,6 +38,10 @@ function App() {
     });
   }
 
+  function handleClear(){
+    alert("Hapus semua data?", setItem([]))
+  }
+
   return (
     <div className="app">
       <div className="logo">Simple Todo List📝</div>
@@ -48,6 +52,7 @@ function App() {
       />
       <List
         listItem={item}
+        handleClear={handleClear}
         handleDeleteItem={handleDeleteItem}
         handleChecklist={handleChecklist}
       />
@@ -72,7 +77,7 @@ function Form({ handleInputChange, value, handleAddItem }) {
 }
 
 // component list
-function List({ listItem, handleDeleteItem, handleChecklist }) {
+function List({ listItem, handleDeleteItem, handleChecklist, handleClear }) {
   const [sortBy, setSortBy] = useState("input");
 
   function sortLists() {
@@ -109,6 +114,7 @@ function List({ listItem, handleDeleteItem, handleChecklist }) {
           <option value="abjad">Urutkan berdasarkan abjad (a-z)</option>
           <option value="status">Urutkan berdasarkan status</option>
         </select>
+        <button onClick={handleClear}>Clear</button>
       </div>
     </div>
   );
