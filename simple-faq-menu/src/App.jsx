@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Accordion from "./components/Accordion";
+import AccordionItem from "./components/AccordionItem";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const faqs = [
+    {
+      question: "Apakah produk ini memiliki jaminan?",
+      answer:
+        "Ya, kami memberikan jaminan garansi selama 1 tahun untuk produk kami.",
+    },
+    {
+      question: "Berapa lama waktu pengiriman rata-rata?",
+      answer:
+        "Waktu pengiriman rata-rata adalah 3-5 hari kerja, tergantung lokasi pengiriman.",
+    },
+    {
+      question: "Bagaimana cara mengembalikan barang yang rusak?",
+      answer:
+        "Jika barang Anda rusak, hubungi layanan pelanggan kami untuk panduan mengenai proses pengembalian dan penggantian.",
+    },
+  ];
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <Accordion data={faqs}/>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
