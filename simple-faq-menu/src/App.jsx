@@ -1,5 +1,4 @@
 import Accordion from "./components/Accordion";
-import AccordionItem from "./components/AccordionItem";
 
 function App() {
   const faqs = [
