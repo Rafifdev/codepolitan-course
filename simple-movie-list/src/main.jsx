@@ -6,8 +6,6 @@ import StarRating from './StarRating.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <App /> */}
-    <StarRating max={5}/>
-    <StarRating max={10}/>
+    <App />
   </StrictMode>,
 )
